@@ -41,9 +41,9 @@ npm run build   # 静态导出到 out/
 
 推送 `main` 触发 `.github/workflows/deploy.yml`：`actions/setup-node` 装依赖 → `npm run build` → `npx wrangler@4 deploy`。
 
-### 必须由仓库所有者添加的 Secrets
+### 工作流依赖的 Secrets
 
-工作流依赖下面两个 Secret，**本仓库当前尚未配置**，未配置时部署步骤会以「缺少 secret」明确失败：
+工作流依赖下面两个 Secret，本仓库已配置；未配置时部署步骤会以「缺少 secret」明确失败：
 
 | Secret                  | 用途                                                             |
 | ----------------------- | ---------------------------------------------------------------- |
@@ -54,7 +54,7 @@ npm run build   # 静态导出到 out/
 
 ## 资源路径
 
-插件封面等静态资源统一托管在本站，供客户端与市场页面引用。
+站点自身的静态资源随 `out/` 一起部署。插件封面由 [DG-LAB-Client-Plugin](https://github.com/CrimsonSeraph/DG-LAB-Client-Plugin) 的 `banners/` 目录统一提供，客户端侧车 `plugin.json` 直接写绝对链接；本站需要展示封面时引用同一地址，不另存副本。
 
 ## 许可
 
