@@ -1,10 +1,15 @@
 # DG-LAB-Client 官网的静态资源 Worker
 # 站点由 Next.js 静态导出到 out/，CI 构建后由 wrangler deploy 直传
 # directory 相对本文件所在目录解析，Cloudflare 侧不跑构建
-# 必须有 main 脚本：无脚本的纯 assets 形态在本环境上线后返回 1101
+# 必须有 main 脚本：无脚本的纯 assets 形态上线后返回 1101
 name = "dglab-web"
 main = "worker.js"
 compatibility_date = "2025-06-01"
+
+# 对外使用自定义子域名，不暴露托管平台的账号子域
+routes = [
+    { pattern = "dglab-web.crimsonseraph.top", custom_domain = true }
+]
 
 [assets]
 directory = "./out"

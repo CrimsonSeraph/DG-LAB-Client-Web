@@ -1,6 +1,6 @@
-// 临时探针：不碰 ASSETS，验证 Worker 脚本本身能否被调用
+// 静态资源 Worker 入口：所有请求交给 ASSETS 绑定，不在运行期做任何构建
 export default {
-  async fetch() {
-    return new Response("ALIVE");
-  },
+    async fetch(request, env) {
+        return env.ASSETS.fetch(request);
+    },
 };

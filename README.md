@@ -16,6 +16,7 @@ DG-LAB-Client 的应用官网与静态资源分发站点。
 - Next.js（App Router）+ TypeScript，`next.config.ts` 只设置 `output: "export"`
 - 构建产物是纯静态文件，输出到仓库根目录的 `out/`
 - 托管在 Cloudflare Workers 静态资源（`wrangler.toml`，Worker 名 `dglab-web`），零 Cloudflare 构建：构建在 GitHub Actions 里跑完，`wrangler deploy` 直接上传 `out/`
+- 对外地址为自定义子域名 <https://dglab-web.crimsonseraph.top>，通过 `routes` 的 `custom_domain` 绑定，不对外暴露托管平台的账号子域
 
 ## 站点结构
 
