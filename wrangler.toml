@@ -1,9 +1,11 @@
 # DG-LAB-Client 官网的静态资源 Worker
 # 站点由 Next.js 静态导出到 out/，CI 构建后由 wrangler deploy 直传
 # directory 相对本文件所在目录解析，Cloudflare 侧不跑构建
+# 必须有 main 脚本：无脚本的纯 assets 形态在本环境上线后返回 1101
 name = "dglab-web"
+main = "worker.js"
 compatibility_date = "2025-06-01"
 
 [assets]
 directory = "./out"
-# 纯静态 Worker 不能声明 assets binding，声明了 wrangler 会要求同时提供 main 脚本
+binding = "ASSETS"

@@ -24,7 +24,8 @@ app/
 ├── layout.tsx   # 根布局与站点标题
 └── page.tsx     # 首页
 next.config.ts   # 静态导出配置
-wrangler.toml    # 静态资源 Worker，[assets] directory 指向 out/
+worker.js        # Worker 入口，把请求转给 env.ASSETS
+wrangler.toml    # 静态资源 Worker，main 指向 worker.js，[assets] directory 指向 out/
 ```
 
 ## 本地开发与构建
