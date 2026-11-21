@@ -1,14 +1,6 @@
-// 静态资源 Worker 入口：请求转给 ASSETS 绑定，异常时把原因写进响应便于定位
+// 临时探针：不碰 ASSETS，验证 Worker 脚本本身能否被调用
 export default {
-  async fetch(request, env) {
-    try {
-      if (!env.ASSETS) {
-        return new Response("ASSETS binding missing", { status: 500 });
-      }
-      return await env.ASSETS.fetch(request);
-    } catch (error) {
-      const detail = error && error.stack ? error.stack : String(error);
-      return new Response("PROBE: " + detail, { status: 500 });
-    }
+  async fetch() {
+    return new Response("ALIVE");
   },
 };
