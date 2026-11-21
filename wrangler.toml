@@ -1,0 +1,9 @@
+# DG-LAB-Client 官网的静态资源 Worker
+# 站点由 Next.js 静态导出到 out/，CI 构建后由 wrangler deploy 直传
+# directory 相对本文件所在目录解析，Cloudflare 侧不跑构建
+name = "dglab-web"
+compatibility_date = "2025-06-01"
+
+[assets]
+directory = "./out"
+binding = "ASSETS"

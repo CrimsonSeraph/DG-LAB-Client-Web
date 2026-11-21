@@ -9,7 +9,48 @@ DG-LAB-Client 的应用官网与静态资源分发站点。
 1. **应用官网** — 下载入口、版本发布说明、使用文档与插件市场的前端页面。
 2. **静态资源分发** — 图标、封面、截图等二进制资源，通过稳定路径对外提供。
 
-站点的构建产物与页面代码会在后续阶段引入；当前仓库只包含许可协议与这份说明。
+当前站点是极简的 Next.js 骨架：只有首页标题，页面内容随后续阶段补充。
+
+## 技术形态
+
+- Next.js（App Router）+ TypeScript，`next.config.ts` 只设置 `output: "export"`
+- 构建产物是纯静态文件，输出到仓库根目录的 `out/`
+- 托管在 Cloudflare Workers 静态资源（`wrangler.toml`，Worker 名 `dglab-web`），零 Cloudflare 构建：构建在 GitHub Actions 里跑完，`wrangler deploy` 直接上传 `out/`
+
+## 站点结构
+
+```text
+app/
+├── layout.tsx   # 根布局与站点标题
+└── page.tsx     # 首页
+next.config.ts   # 静态导出配置
+wrangler.toml    # 静态资源 Worker，[assets] directory 指向 out/
+```
+
+## 本地开发与构建
+
+```bash
+npm ci
+npm run dev     # 开发服务器
+npm run build   # 静态导出到 out/
+```
+
+`npm run build` 之后 `out/index.html` 就是线上首页，可用任意静态服务器预览。
+
+## 部署
+
+推送 `main` 触发 `.github/workflows/deploy.yml`：`actions/setup-node` 装依赖 → `npm run build` → `npx wrangler@4 deploy`。
+
+### 必须由仓库所有者添加的 Secrets
+
+工作流依赖下面两个 Secret，**本仓库当前尚未配置**，未配置时部署步骤会以「缺少 secret」明确失败：
+
+| Secret                  | 用途                                                             |
+| ----------------------- | ---------------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Cloudflare API token，需要 Account → Workers Scripts → Edit 权限 |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账号 ID，在面板账号首页右侧可以取到                   |
+
+添加路径：仓库 Settings → Secrets and variables → Actions → New repository secret。
 
 ## 资源路径
 

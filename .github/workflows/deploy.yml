@@ -1,0 +1,58 @@
+# DG-LAB-Client-Web · 官网静态站点部署
+# 触发方式：push main —— 构建 Next.js 静态导出并直传到 Cloudflare Workers
+# 零 Cloudflare 构建：wrangler deploy 从 runner 上传 out/，Cloudflare 侧不检出仓库
+#
+# 需要的 secrets（必须由仓库所有者添加，当前仓库尚未配置）：
+#   CLOUDFLARE_API_TOKEN  —— Workers Scripts 编辑权限
+#   CLOUDFLARE_ACCOUNT_ID —— Cloudflare 账号 ID
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: 构建并部署
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 拉取源码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 构建静态站点
+        run: npm run build
+
+      - name: 部署静态资源 Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            echo "::error title=缺少 secret::CLOUDFLARE_API_TOKEN 或 CLOUDFLARE_ACCOUNT_ID 未配置，见 README"
+            exit 1
+          fi
+          if [ ! -f out/index.html ]; then
+            echo "::error title=缺少产物::out/index.html 不存在，静态导出可能失败"
+            exit 1
+          fi
+          # wrangler deploy 直接从本机上传 out/，Cloudflare 侧不跑构建
+          npx --yes wrangler@4 deploy
