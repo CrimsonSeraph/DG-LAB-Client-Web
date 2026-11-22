@@ -60,24 +60,20 @@ npm run build   # 静态导出到 out/
 
 ## 许可
 
-本仓库内容以 CC BY 4.0（知识共享 署名 4.0 国际）许可协议发布，全文见 [LICENSE](LICENSE)。
+本仓库内容以 MIT 许可协议发布，全文见 [LICENSE](LICENSE)，版权行为 `Copyright (c) 2026 CrimsonSeraph`。
 
-协议要点：
+允许使用、复制、修改、合并、发布、分发、再许可与销售本仓库内容，包括商业用途，条件是在副本或重要部分中保留上述版权声明与许可声明。内容按「原样」提供，不带任何形式的明示或默示担保。
 
-- **署名** — 转载、改编时必须注明来源与本仓库使用的许可协议，并链接到协议全文。
-- **允许商用与改编** — 允许商业使用与二次创作，无需另行授权。
-- **无附加限制** — 不得对他人行使协议授予的权利施加额外法律或技术限制。
-- 协议不授予商标、专利或人格权方面的许可。
+适用文件在头部加两行 SPDX 声明，标识符为 `MIT`：
 
-协议全文：<https://creativecommons.org/licenses/by/4.0/legalcode>
-可读摘要：<https://creativecommons.org/licenses/by/4.0/>
-
-推荐署名格式：
-
+```text
+// Copyright (c) 2026 CrimsonSeraph
+// SPDX-License-Identifier: MIT
 ```
-DG-LAB-Client-Web by CrimsonSeraph, licensed under CC BY 4.0
-https://github.com/CrimsonSeraph/DG-LAB-Client-Web
-```
+
+YAML 与 TOML 文件改用 `#` 注释符，其余内容相同。
+
+`package.json`、`package-lock.json`、`tsconfig.json`、`.gitignore` 属于 JSON 或约定文件，不能写注释，因此不带 SPDX 声明；它们仍受仓库根目录 [LICENSE](LICENSE) 的 MIT 条款覆盖。
 
 ## 相关仓库
 

@@ -1,3 +1,6 @@
+# Copyright (c) 2026 CrimsonSeraph
+# SPDX-License-Identifier: MIT
+
 # DG-LAB-Client-Web · 官网静态站点部署
 # 触发方式：push main —— 构建 Next.js 静态导出并直传到 Cloudflare Workers
 # 零 Cloudflare 构建：wrangler deploy 从 runner 上传 out/，Cloudflare 侧不检出仓库
